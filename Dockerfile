@@ -24,8 +24,6 @@ WORKDIR /app
 # Copy the compiled binary from builder stage
 COPY --from=builder /app/main .
 
-# Copy environment template file if app relies on it
-COPY --from=builder /app/.env .
 
 EXPOSE 8080
 
