@@ -551,7 +551,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "",
-	BasePath:         "/api/v1",
+	BasePath:         "/",
 	Schemes:          []string{"http", "https"},
 	Title:            "Product & Service Management API",
 	Description:      "Backend API for managing products and services.",
