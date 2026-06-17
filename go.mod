@@ -1,6 +1,6 @@
 module technical_test
 
-go 1.22
+go 1.25
 
 require (
 	github.com/Masterminds/squirrel v1.5.4
