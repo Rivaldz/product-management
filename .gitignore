@@ -1,0 +1,34 @@
+# Binaries and templates
+/main
+/app
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories
+/vendor/
+
+# Configuration and Env files (MUST BE IGNORED)
+.env
+.env.*
+
+# Local/IDE Configs
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Temporary / Air / Docker files
+/tmp/
+pgdata/

@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # Database postgresql
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: technical_test
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d technical_test"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Migration runner to execute SQL files inside /migrations
+  migrate:
+    image: migrate/migrate
+    volumes:
+      - ./migrations:/migrations
+    command: -path=/migrations -database postgres://user:password@db:5432/technical_test?sslmode=disable up
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Golang API application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - APP_NAME=product_service
+      - APP_VERSION=1.0.0
+      - HTTP_PORT=8080
+      - LOG_LEVEL=debug
+      - PG_URL=postgres://user:password@db:5432/technical_test?sslmode=disable
+      - PG_POOL_MAX=10
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  pgdata:
